@@ -16,7 +16,7 @@ router.get(
       const users = UserService.getAllUsers();
       res.send(users);
     } catch (err) {
-      res.status(404).send({ error: true, message: err });
+      res.status(404).send({ error: true, message: err.message });
     } finally {
       next();
     }
@@ -43,13 +43,9 @@ router.get(
 // POST /api/users
 router.post(
   "/",
+  createUserValid,
   (req, res, next) => {
     try {
-      const isUserValid = createUserValid(req.body);
-      if (!isUserValid) {
-        throw new Error();
-      }
-
       const user = UserService.createUser(req.body);
       res.send(user);
     } catch (err) {
