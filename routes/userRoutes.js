@@ -10,14 +10,13 @@ const router = Router();
 
 // GET /api/users
 router.get(
-  "/:id",
+  "/",
   (req, res, next) => {
     try {
       const users = UserService.getAllUsers();
       res.send(users);
     } catch (err) {
-      res.err = err;
-      res.status(404).json({ error: true, message: "Users not found" });
+      res.status(404).send({ error: true, message: err });
     } finally {
       next();
     }
@@ -33,8 +32,7 @@ router.get(
       const user = UserService.search({ id: req.params.id });
       res.send(user);
     } catch (err) {
-      res.err = err;
-      res.status(404).json({ error: true, message: "User not found" });
+      res.status(404).send({ error: true, message: err });
     } finally {
       next();
     }
@@ -54,11 +52,8 @@ router.post(
 
       const user = UserService.createUser(req.body);
       res.send(user);
-      //initial implementation:save user in db
-      //second iteration: validate body before save, if invalid -> throw error
     } catch (err) {
-      res.err = err;
-      res.status(400).json({ error: true, message: "User not found" });
+      res.status(400).send({ error: true, message: err });
     } finally {
       next();
     }
@@ -75,8 +70,7 @@ router.put(
       const user = UserService.updateUser(req.params.id, dataToUpdate);
       res.send(user);
     } catch (err) {
-      res.err = err;
-      res.status(404).json({ error: true, message: "User not found" });
+      res.status(404).send({ error: true, message: err });
     } finally {
       next();
     }
@@ -92,8 +86,7 @@ router.delete(
       const user = UserService.deleteUser(req.params.id);
       res.send(user);
     } catch (err) {
-      res.err = err;
-      res.status(404).json({ error: true, message: "User not found" });
+      res.status(404).send({ error: true, message: err });
     } finally {
       next();
     }

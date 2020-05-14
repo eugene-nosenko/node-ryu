@@ -10,7 +10,6 @@ router.post(
     try {
       // TODO: Implement login action
       //res.data = data;
-      console.log("authRoutes", req.body);
     } catch (err) {
       res.err = err;
     } finally {
