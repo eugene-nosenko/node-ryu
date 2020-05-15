@@ -30,9 +30,11 @@ router.get(
   (req, res, next) => {
     try {
       const fighter = FighterService.search({ id: req.params.id });
-      res.send(fighter);
+      //res.send(fighter);
+      req.data = fighter;
     } catch (err) {
-      res.status(404).send({ error: true, message: err });
+      error.statusCode = 404;
+      next(error);
     } finally {
       next();
     }
@@ -43,18 +45,15 @@ router.get(
 // POST /api/fighters
 router.post(
   "/",
+  createFighterValid,
   (req, res, next) => {
     try {
-      console.log(req.body);
-      const isFighterValid = createFighterValid(req.body);
-      if (!isFighterValid) {
-        throw new Error();
-      }
-      console.log(req.body);
       const fighter = FighterService.createFighter(req.body);
-      res.send(fighter);
+      // res.send(fighter);
+      req.data = fighter;
     } catch (err) {
-      res.status(400).send({ error: true, message: err });
+      error.statusCode = 400;
+      next(error);
     } finally {
       next();
     }
@@ -65,13 +64,16 @@ router.post(
 // PUT /api/fighters/:id
 router.put(
   "/:id",
+  updateFighterValid,
   (req, res, next) => {
     try {
       const dataToUpdate = req.body;
       const fighter = FighterService.updateFighter(req.params.id, dataToUpdate);
-      res.send(fighter);
+      // res.send(fighter);
+      req.data = fighter;
     } catch (err) {
-      res.status(404).send({ error: true, message: err });
+      error.statusCode = 404;
+      next(error);
     } finally {
       next();
     }
@@ -85,9 +87,11 @@ router.delete(
   (req, res, next) => {
     try {
       const fighter = FighterService.deleteFighter(req.params.id);
-      res.send(fighter);
+      // res.send(fighter);
+      req.data = fighter;
     } catch (err) {
-      res.status(404).send({ error: true, message: err });
+      error.statusCode = 404;
+      next(error);
     } finally {
       next();
     }
