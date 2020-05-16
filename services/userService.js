@@ -7,7 +7,7 @@ class UserService {
     const item = UserRepository.getOne(search);
 
     if (!item) {
-      throw "User is not found";
+      throw new Error("User is not found");
     }
     return item;
   }

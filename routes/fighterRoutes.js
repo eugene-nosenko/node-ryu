@@ -15,8 +15,9 @@ router.get(
     try {
       const fighters = FighterService.getAllFighters();
       res.send(fighters);
-    } catch (err) {
-      res.status(404).send({ error: true, message: err });
+    } catch (error) {
+      error.statusCode = 404;
+      next(error);
     } finally {
       next();
     }
@@ -32,7 +33,7 @@ router.get(
       const fighter = FighterService.search({ id: req.params.id });
       //res.send(fighter);
       req.data = fighter;
-    } catch (err) {
+    } catch (error) {
       error.statusCode = 404;
       next(error);
     } finally {
@@ -51,7 +52,7 @@ router.post(
       const fighter = FighterService.createFighter(req.body);
       // res.send(fighter);
       req.data = fighter;
-    } catch (err) {
+    } catch (error) {
       error.statusCode = 400;
       next(error);
     } finally {
@@ -71,7 +72,7 @@ router.put(
       const fighter = FighterService.updateFighter(req.params.id, dataToUpdate);
       // res.send(fighter);
       req.data = fighter;
-    } catch (err) {
+    } catch (error) {
       error.statusCode = 404;
       next(error);
     } finally {
@@ -89,7 +90,7 @@ router.delete(
       const fighter = FighterService.deleteFighter(req.params.id);
       // res.send(fighter);
       req.data = fighter;
-    } catch (err) {
+    } catch (error) {
       error.statusCode = 404;
       next(error);
     } finally {

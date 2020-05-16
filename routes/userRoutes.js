@@ -13,8 +13,7 @@ router.get(
   "/",
   (req, res, next) => {
     try {
-      const users = UserService.getAllUsers();
-      req.data = users;
+      req.data = UserService.getAllUsers();
     } catch (err) {
       error.statusCode = 404;
       next(error);
@@ -32,8 +31,8 @@ router.get(
     try {
       const user = UserService.search({ id: req.params.id });
       req.data = user;
-    } catch (err) {
-      error.statusCode = 400;
+    } catch (error) {
+      error.statusCode = 404;
       next(error);
     } finally {
       next();
@@ -50,7 +49,7 @@ router.post(
     try {
       const user = UserService.createUser(req.body);
       req.data = user;
-    } catch (err) {
+    } catch (error) {
       error.statusCode = 400;
       next(error);
     } finally {
@@ -69,7 +68,7 @@ router.put(
       const dataToUpdate = req.body;
       const user = UserService.updateUser(req.params.id, dataToUpdate);
       req.data = user;
-    } catch (err) {
+    } catch (error) {
       error.statusCode = 400;
       next(error);
     } finally {
@@ -86,7 +85,7 @@ router.delete(
     try {
       const user = UserService.deleteUser(req.params.id);
       req.data = user;
-    } catch (err) {
+    } catch (error) {
       error.statusCode = 404;
       next(error);
     } finally {
