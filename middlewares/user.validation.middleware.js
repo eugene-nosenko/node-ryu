@@ -70,9 +70,7 @@ const updateUserValid = (req, res, next) => {
   const { id, ...userParams } = user;
 
   const extraKeys = Object.keys(userData)
-    .filter((key) => {
-      !Object.keys(userParams).includes(key);
-    })
+    .filter((key) => !Object.keys(userParams).includes(key))
     .map((param) => `${param} is extra`)
     .join(", ");
 
