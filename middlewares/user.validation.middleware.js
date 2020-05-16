@@ -19,34 +19,34 @@ const createUserValid = (req, res, next) => {
 
   if (!isEmpty(missingParams)) {
     const error = new Error(missingParams);
-    error.statusCode = 404;
+    error.statusCode = 400;
     return next(error);
   }
 
   if (!isEmpty(extraKeys)) {
     const error = new Error(extraKeys);
-    error.statusCode = 404;
+    error.statusCode = 400;
     return next(error);
   }
 
   const regexEmail = /^[\w.+\-]+@gmail\.com$/gm;
   if (!regexEmail.test(req.body.email)) {
     const error = new Error(`Email ${req.body.email} does not fit`);
-    error.statusCode = 404;
+    error.statusCode = 400;
     return next(error);
   }
 
   const regexPhone = /^\+380(\d{9})$/g;
   if (!regexPhone.test(req.body.phoneNumber)) {
     const error = new Error(`Phone ${req.body.phoneNumber} does not fit`);
-    error.statusCode = 404;
+    error.statusCode = 400;
     return next(error);
   }
 
   const regexDefense = /^([1-9]|10)$/g;
   if (!regexDefense.test(req.body.defense)) {
     const error = new Error(`Defense ${req.body.defense} does not fit`);
-    error.statusCode = 404;
+    error.statusCode = 400;
     return next(error);
   }
 
