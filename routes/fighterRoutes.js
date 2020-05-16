@@ -10,11 +10,11 @@ const router = Router();
 
 // GET /api/fighters
 router.get(
-  "/:id",
+  "/",
   (req, res, next) => {
     try {
       const fighters = FighterService.getAllFighters();
-      res.send(fighters);
+      req.data = fighters;
     } catch (error) {
       error.statusCode = 404;
       next(error);

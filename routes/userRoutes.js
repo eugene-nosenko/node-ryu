@@ -69,7 +69,7 @@ router.put(
       const user = UserService.updateUser(req.params.id, dataToUpdate);
       req.data = user;
     } catch (error) {
-      error.statusCode = 400;
+      error.statusCode = 404;
       next(error);
     } finally {
       next();
