@@ -13,10 +13,9 @@ router.get(
   "/",
   (req, res, next) => {
     try {
-      req.data = UserService.getAllUsers();
-    } catch (err) {
-      error.statusCode = 404;
-      next(error);
+      res.data = UserService.getAllUsers();
+    } catch (error) {
+      res.error = error;
     } finally {
       next();
     }
@@ -29,11 +28,9 @@ router.get(
   "/:id",
   (req, res, next) => {
     try {
-      const user = UserService.search({ id: req.params.id });
-      req.data = user;
+      res.data = UserService.search({ id: req.params.id });
     } catch (error) {
-      error.statusCode = 404;
-      next(error);
+      res.error = error;
     } finally {
       next();
     }
@@ -47,11 +44,9 @@ router.post(
   createUserValid,
   (req, res, next) => {
     try {
-      const user = UserService.createUser(req.body);
-      req.data = user;
+      res.data = UserService.createUser(req.body);
     } catch (error) {
-      error.statusCode = 400;
-      next(error);
+      res.error = error;
     } finally {
       next();
     }
@@ -66,11 +61,9 @@ router.put(
   (req, res, next) => {
     try {
       const dataToUpdate = req.body;
-      const user = UserService.updateUser(req.params.id, dataToUpdate);
-      req.data = user;
+      res.data = UserService.updateUser(req.params.id, dataToUpdate);
     } catch (error) {
-      error.statusCode = 404;
-      next(error);
+      res.error = error;
     } finally {
       next();
     }
@@ -83,11 +76,9 @@ router.delete(
   "/:id",
   (req, res, next) => {
     try {
-      const user = UserService.deleteUser(req.params.id);
-      req.data = user;
+      res.data = UserService.deleteUser(req.params.id);
     } catch (error) {
-      error.statusCode = 404;
-      next(error);
+      res.error = error;
     } finally {
       next();
     }

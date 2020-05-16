@@ -16,7 +16,7 @@ app.use("/", express.static("./client/build"));
 // error handler
 app.use(function (err, req, res, next) {
   if (err) {
-    const statusCode = err.statusCode || 400;
+    const statusCode = err.status || err.statusCode || 400;
     res.status(statusCode).json({ error: true, message: err.message });
   }
   next();

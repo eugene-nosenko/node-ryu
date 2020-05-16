@@ -1,4 +1,5 @@
 const { UserRepository } = require("../repositories/userRepository");
+const isEmpty = require("lodash.isempty");
 
 class UserService {
   // TODO: Implement methods to work with user
@@ -7,7 +8,9 @@ class UserService {
     const item = UserRepository.getOne(search);
 
     if (!item) {
-      throw new Error("User is not found");
+      const error = new Error("User is not found");
+      error.status = 404;
+      throw error;
     }
     return item;
   }
@@ -15,33 +18,34 @@ class UserService {
   createUser(data) {
     const user = UserRepository.create(data);
     if (!user) {
-      throw "User is not found";
+      throw new Error("User is not found");
     }
     return user;
   }
 
   getAllUsers() {
     const users = UserRepository.getAll();
-    if (!users) {
-      throw "Users are not found";
-    }
     return users;
   }
 
   deleteUser(id) {
     const user = UserRepository.delete(id);
-    if (!user) {
-      throw "User is not found";
+    if (isEmpty(user)) {
+      const error = new Error("User is not found");
+      error.status = 404;
     }
     return user;
   }
 
   updateUser(id, dataToUpdate) {
-    const user = UserRepository.update(id, dataToUpdate);
+    const user = this.search({ id });
+    const updatedUser = UserRepository.update(id, dataToUpdate);
     if (!user) {
-      throw "User is not found";
+      throw new Error("User is not found");
+      error.status = 404;
+      throw error;
     }
-    return user;
+    return updatedUser;
   }
 }
 

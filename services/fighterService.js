@@ -1,10 +1,11 @@
 const { FighterRepository } = require("../repositories/fighterRepository");
+const isEmpty = require("lodash.isempty");
 
 class FighterService {
   search(search) {
     const item = FighterRepository.getOne(search);
     if (!item) {
-      throw "Fighter is not found";
+      throw new Error("Fighter is not found");
     }
     return item;
   }
@@ -13,33 +14,33 @@ class FighterService {
     const fighter = FighterRepository.create(data);
     console.log(fighter);
     if (!fighter) {
-      throw "Fighter is not found";
+      throw new Error("Fighter is not found");
     }
     return fighter;
   }
 
   getAllFighters() {
     const fighters = FighterRepository.getAll();
-    if (!fighters) {
-      throw "Fighters are not found";
-    }
+
     return fighters;
   }
 
   deleteFighter(id) {
     const fighter = FighterRepository.delete(id);
-    if (!fighter) {
-      throw "Fighter is not found";
+    if (isEmpty(fighter)) {
+      const error = new Error("User is not found");
+      error.status = 404;
     }
     return fighter;
   }
 
   updateFighter(id, dataToUpdate) {
-    const fighter = FighterRepository.update(id, dataToUpdate);
+    const fighter = this.search({ id });
+    const updatedFighter = FighterRepository.update(id, dataToUpdate);
     if (!fighter) {
-      throw "Fighter is not found";
+      throw new Error("Fighter is not found");
     }
-    return fighter;
+    return updatedFighter;
   }
 }
 
